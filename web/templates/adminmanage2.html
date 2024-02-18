@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>MELOMIX</title>
+</head>
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-shrink-0" style="margin-left: 50px;">
+            <a href="/adminhome"><img src="static\logo.png" height="100px" width="100px"></a>
+        </div>
+        <div class="p-5 flex-grow-1 bd-highlight" >
+            <h2 style="color: aqua;">Creator Managemnet</h2></div>
+            <div class="p-5 flex-grow-1 bd-highlight">
+            
+        </div>
+        <div class="p-2 flex-shrink-1 bd-highlight" style="color: aqua;">
+            <i>Date: {{datetime.strftime("%d/%m/%Y")}}
+                <br>
+                Time: {{datetime.strftime("%H:%M:%S")}}
+                </i>
+                <br>
+                <a href="/adminhome" class="btn btn-primary">Home</a>
+        </div>
+    </div>
+    <div class="container" style="padding: 2em; ">
+        <h5>New Creator Requests</h5>
+        {% if creator %}
+        {% for c in creator%}
+        {% if c.flag==0 %}
+            <div class="d-flex bd-highlight rectangle border border-primary rounded" style="padding: 1em; margin: 15px;">
+                <div class="p-1 flex-grow-1 bd-highlight">
+                <div class="row g-0"> 
+                    <div class="col-md-2">
+                        <img src="{{c.profile_photo}}" class="img-fluid rounded-start" alt="photo" height="150px" width="150px">
+                    </div>
+                <div class="col-md-8">
+                <p><strong>Creator Name</strong>: {{c.cname}}</p>
+                <p><strong>Registered Date</strong>: {{c.doc.strftime("%d/%m/%Y")}}</p>
+                </div>
+                </div>
+            </div>
+                <div class="p-4 flex-shrink-1 bd-highlight">
+                    <form method='post' action="/mad-creator-manage">
+                        <input type="text" name="id" value="{{c.id}}" hidden>
+                        <input type="submit" class="btn btn-success"  name="flag" value="Approve">
+                        <input type="submit" class="btn btn-danger"  name="flag" value="Deny">
+                    </form>
+                </div>  
+            </div>
+        
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container" style="padding: 2em;">
+        <h5>MELOMIX's Creator</h5>
+        {% if creator %}
+        {% for c in creator %}
+        {% if c.flag==1 %}
+        <div class="d-flex bd-highlight rectangle border border-primary rounded" style="padding: 1em; margin: 15px;">
+            <div class="p-1 flex-grow-1 bd-highlight">
+            <div class="row g-0"> 
+                <div class="col-md-2">
+                    <img src="{{c.profile_photo}}" class="img-fluid rounded-start" alt="photo" height="150px" width="150px">
+                </div>
+            <div class="col-md-8">
+            <p><strong>Creator Name</strong>: {{c.cname}}</p>
+            <p><strong>Registered Date</strong>: {{c.doc.strftime("%d/%m/%Y")}}</p>
+            </div>
+            </div>
+            </div>
+            <div class="p-4 flex-shrink-1 bd-highlight">
+                <form method='post' action="/mad-creator-manage">
+                    <input type="text" name="id" value="{{c.id}}" hidden>
+                    <input type="submit" class="btn btn-dark"  name="flag" value="Black List">
+                </form>
+            </div>  
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}        
+    </div>
+    <div class="container" style="padding: 2em;">
+        <h5>Black listed Creator</h5>
+        {% if creator %}
+        {% for c in creator %}
+        {% if c.flag==2 %}
+        <div class="d-flex bd-highlight rectangle border border-primary rounded" style="padding: 1em; margin: 15px;">
+            <div class="p-1 flex-grow-1 bd-highlight">
+            <div class="row g-0"> 
+                <div class="col-md-2">
+                    <img src="{{c.profile_photo}}" class="img-fluid rounded-start" alt="photo" height="150px" width="150px">
+                </div>
+            <div class="col-md-8">
+            <p><strong>Creator Name</strong>: {{c.cname}}</p>
+            <p><strong>Registered Date</strong>: {{c.doc.strftime("%d/%m/%Y")}}</p>
+            </div>
+            </div>
+            </div>
+            <div class="p-4 flex-shrink-1 bd-highlight">
+                <form method='post' action="/mad-creator-manage">
+                    <input type="text" name="id" value="{{c.id}}" hidden>
+                    <input type="submit" class="btn btn-info" name="flag" value="White List">
+                    <input type="submit" class="btn btn-danger" name="flag" value="Remove Creator">
+                </form>
+            </div>  
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>MELOMIX</title>
+</head>
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-grow-1" style="margin-left: 50px;">
+            <a href="/userhome"><img src="/static/logo.png" height="100px" width="100px"></a>
+        </div>
+        <div class="p-5 flex-grow-1 bd-highlight">
+            <form method="POST" action="/search">
+                <div>
+                    <select name="searchby" required>
+                        <option value="" disabled selected>Search by</option>
+                        <option value="song">Song</option>
+                        <option value="album">Album</option>
+                        <option value="playlist">Playlist</option>
+                    </select>
+                <input type="text" name="search" placeholder="search-here" required value="{{search}}"><button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </form>
+        </div>
+        <div class="p-2 flex-shrink-1 bd-highlight">
+            <div class="dropdown">
+                <button class="btn  dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{user.profile_photo}}" alt="dp" class="img-thumbnail mt-8 mb-2 " style="max-width: 80px; border-radius: 10em; max-height: 80px;  z-index: 1">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="/userhome">Home</a></li>
+                    <li><a class="dropdown-item" href="/userprofile">Profile</a></li> 
+                    <li><a class="dropdown-item" href="/creatorprofile">Creator Home</a></li> 
+                    <li><a class="dropdown-item" href="/log-out">Logout</a></li>      
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        {% if searchby=='song' %}
+        <div class="container" style="padding: 2em;">
+            <h4>Searched Songs</h4>
+            {% if result %}
+            {% for s in result %}
+            <div class="d-flex bd-highlight rectangle border border-primary rounded" style="padding: 1em; margin: 15px;">
+                <div class="p-1 flex-grow-1 bd-highlight">
+                <div class="row g-0"> 
+                    <div class="col-md-2">
+                        <img src="{{s.scover_photo}}" class="img-fluid rounded-start border" alt="photo" height="150px" width="150px">
+                    </div>
+                <div class="col-md-8" style="padding: 1em;">
+                    <p><strong>Song Name</strong>: {{s.sname}}</p>
+                    <p><strong>Created Artist</strong>: {{creator[id==s.cid].cname}}</p>
+                    <p><strong>Created Date</strong>: {{s.doc.strftime("%d-%m-%Y")}}</p>
+                </div>
+                </div>
+                </div>
+                <div class="p-4 flex-shrink-1 bd-highlight">
+                    <a href="/song/{{s.id}}" class="btn btn-primary">View Song</a>
+                </div>  
+            </div>
+            {% endfor %}
+            {% else %}<p>--No such songs found</p>{% endif %} 
+        </div>
+        {% elif searchby=='album' %}
+        <div class="container" style="padding: 2em;">
+            <h4>Searched Albums</h4>
+            {% if result %}
+            {% for a in result %}
+            <div class="d-flex bd-highlight rectangle border border-primary rounded" style="padding: 1em; margin: 15px;">
+                <div class="p-1 flex-grow-1 bd-highlight">
+                <div class="row g-0"> 
+                    <div class="col-md-2">
+                        <img src="{{a.album_coverphoto}}" class="img-fluid rounded-start border" alt="photo" height="100px" width="100px">
+                    </div>
+                <div class="col-md-8" style="padding: 1em;">
+                <p><strong>Album Name</strong>: {{a.album_name}}</p>
+                <p><strong>Genre</strong>: {{a.genre}}</p>
+                <p><strong>Creator</strong>: {{creator[id==a.cid].cname}}</p>
+                </div>
+                </div>
+                </div>
+                <div class="p-4 flex-shrink-1 bd-highlight">
+                    <a href="/album/{{a.id}}" class="btn btn-primary">View Album</a>
+                </div>  
+            </div>
+            {% endfor %}
+            {% else %}<p>--No such albums found</p>{% endif %}
+        </div>
+        {% elif searchby=='playlist' %}
+        <div class="container" style="padding: 2em;">
+            <h4>Searched Playlists</h4>
+            {% if result %}
+            {% for p in result %}
+            <div class="d-flex bd-highlight rectangle border border-primary rounded" style="padding: 1em; margin: 15px;">
+                <div class="p-1 flex-grow-1 bd-highlight">
+                <div class="row g-0"> 
+                    <div class="col-md-2">
+                        <img src="{{p.playlist_coverphoto}}" class="img-fluid rounded-start border" alt="photo" height="150px" width="150px">
+                    </div>
+                <div class="col-md-8" style="padding: 1em;">
+                    <p><strong>Playlist Name</strong>: {{p.playlist_name}}</p>
+                    <p><strong>Created By</strong>: {{alluser[id==p.uid].username}}</p>
+                    <p><strong>Created Date</strong>: {{p.doc.strftime("%d-%m-%Y")}}</p>
+                </div>
+                </div>
+                </div>
+                <div class="p-4 flex-shrink-1 bd-highlight">
+                    <a href="/playlist/{{p.id}}" class="btn btn-primary">View Playlist</a>
+                </div>  
+            </div>
+            {% endfor %}
+            {% else %}<p>--No Playlist found</p>
+            {% endif %}        
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

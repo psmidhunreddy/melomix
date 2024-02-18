@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>MELOMIX</title>
+    <style>
+        div.scroll {
+            height: 250px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: justify;
+        }   
+    </style>
+</head>
+
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-shrink-0" style="margin-left: 50px;">
+            <a href="/creatorprofile"><img src="static\logo.png" height="100px" width="100px"></a>
+        </div>
+        <div class="p-5 flex-grow-1 bd-highlight">
+            <h2 style="color: aqua;">Welcome back {{creator.cname}}!</h2>
+        </div>
+
+        <div class="p-2 flex-shrink-1 bd-highlight">
+            <button class="btn btn-primary"><a class="dropdown-item" href="/userhome">User Home</a></button>
+        </div>
+    </div>
+    {% if creator.flag==1 %}
+    
+    <div class="container" style="padding: 2em;">
+    <div class="row">
+        <div class="col">
+            <h4>Your Creator Profile</h4>
+            <div class="row g-0">
+            <div class="col-4" style="padding-left: 20px;"><img src="{{creator.profile_photo}}" width="150px" height="150px" class="border"></div>
+            <div class="col-8" ><strong>Artist Name(Public):</strong> {{creator.cname}}<br><br>
+            <strong>Creator Since:</strong> {{creator.doc.strftime("%d-%m-%Y")}}<br><br>
+            <strong>Total Songs Uploaded: </strong> {{songs|length}}<br><br>
+            <strong>Total Albums Uploaded: </strong> {{albums|length}}<br><br>
+            </div>
+        </div></div>
+        <div class="col">
+        <h4>This is what you can do as a creator</h4>
+        <div style="padding: 2px; "><a href="/createsong" class="btn btn-outline-info">Create/Upload a new song</a></div>
+        <div style="padding: 2px;"><a href="/createalbum" class="btn btn-outline-info">Create a new album</a></div>
+        </div>
+    </div>
+    </div>
+    <div class="container">
+        <div class="row" style="padding: 2em;">
+            <div class="col-6">
+                <h4>Your Songs</h4>
+                <div class="scroll">
+                    {% if songs %}
+                    {% for s in songs %}
+                    <div class="d-flex bd-highlight rectangle border border-primary rounded"
+                        style="padding: 1em; margin: 15px;">
+                        <div class="p-1 flex-grow-1 bd-highlight">
+                            <div class="row g-0">
+                                <div class="col-2">
+                                    <img src="{{s.scover_photo}}" alt="photo" height="100px" width="100px"  class="border">
+                                </div>
+                                <div class="col-6" style="padding: 1em;">
+                                    <p><strong>Song Name</strong>: {{s.sname}}</p>
+                                    <p><strong>Created Date</strong>: {{s.doc.strftime("%d-%m-%Y")}}</p>
+                                </div>
+                                <div class="col-4">
+                                    <form method='post' action="/editsong">
+                                        <input type="text" name="sid" value="{{s.id}}" hidden>
+                                        <div style="padding: 2px;"><a href="/song/{{s.id}}" class="btn btn-primary">View Song</a></div>
+                                        <div style="padding: 2px;"><input type="submit" class="btn btn-warning" name="edit" value="Edit Song"></div>
+                                        <div style="padding: 2px;"><input type="submit" class="btn btn-danger" name="delete" value="Remove Song"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}<p>--No songs to display</p>{% endif %}
+                </div>
+            </div>
+            <div class="col-6">
+                <h4>Your Albums</h4>
+                <div class="scroll">
+                    {% if albums %}
+                    {% for a in albums %}
+                    <div class="d-flex bd-highlight rectangle border border-primary rounded"
+                        style="padding: 1em; margin: 15px;">
+                        <div class="p-1 flex-grow-1 bd-highlight">
+                            <div class="row g-0">
+                                <div class="col-2">
+                                    <img src="{{a.album_coverphoto}}" alt="photo" height="100px" width="100px" class="border">
+                                </div>
+                                <div class="col-6" style="padding: 1em;">
+                                    <p><strong>Album Name</strong>: {{a.album_name}}</p>
+                                    <p><strong>Created Date</strong>: {{a.doc.strftime("%d-%m-%Y")}}</p>
+                                </div>
+                                <div class="col-4">
+                                    <form method='post' action="/editalbum">
+                                        <input type="text" name="aid" value="{{a.id}}" hidden>
+                                        <div style="padding: 2px;"><a href="/album/{{a.id}}" class="btn btn-primary">View Album</a></div>
+                                        <div style="padding: 2px;"><input type="submit" class="btn btn-warning" name="edit" value="Edit Album"></div>
+                                        <div style="padding: 2px;"><input type="submit" class="btn btn-danger" name="delete" value="Remove Album"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                    {% else %}<p>--No albums to display</p>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="position-absolute bottom-0 end-0">
+        <div class="m-4">
+            {%with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+            <div class="alert alert-danger alert-dismissible fade show">
+                {{messages[0]}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
+            {% endwith %}
+            {%with messages = get_flashed_messages(category_filter=["success"]) %}
+            {% if messages %}
+            <div class="alert alert-success alert-dismissible fade show">
+                {{messages[0]}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
+            {% endwith %}
+            {%with messages = get_flashed_messages(category_filter=["warning"]) %}
+            {% if messages %}
+            <div class="alert alert-warning alert-dismissible fade show">
+                {{messages[0]}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</body>
+
+</html>

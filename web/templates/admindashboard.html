@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>MELOMIX</title>
+    <style>
+        div.scrollmenu {
+        overflow: auto;
+        white-space: nowrap;
+        }
+        
+        div.scrollmenu a {
+        display: inline-block;
+        color: white;
+        text-align: center;
+        padding: 14px;
+        text-decoration: none;
+        }
+        div.scrollmenu a:hover {
+        background-color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-shrink-0" style="margin-left: 50px;">
+            <a href="/adminhome"><img src="static\logo.png" height="100px" width="100px"></a>
+        </div>
+        <div class="p-5 flex-grow-1 bd-highlight" >
+            <h2 style="color: aqua;">Admin's Dashboard</h2></div>
+            <div class="p-5 flex-grow-1 bd-highlight">
+            
+        </div>
+        <div class="p-2 flex-shrink-1 bd-highlight" style="color: aqua;">
+            <i>Date: {{datetime.strftime("%d/%m/%Y")}}
+                <br>
+                Time: {{datetime.strftime("%H:%M:%S")}}
+                </i>
+                <br>
+                <a href="/adminhome" class="btn btn-primary">Home</a>
+        </div>
+    </div>
+    
+    <div class="container" style="padding: 2em;">
+        <div class="row" style="justify-content: space-around; padding: 2em;">
+        <div class="card mb-3 border border-primary" style="max-width: 350px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                <img src="/static/decors/user.jpg" class="img-fluid rounded-start" alt="photo" height="150px" width="150px">
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users : {{user|length}}</h5>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 border border-primary" style="max-width: 350px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                <img src="/static/decors/singer.jpg" class="img-fluid rounded-start" alt="photo" height="150px" width="150px">
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Total Creators : {{creator|length}}</h5>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 border border-primary" style="max-width: 350px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                <img src="/static/decors/song.jpg" class="img-fluid rounded-start" alt="photo" height="150px" width="150px">
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Total Songs :{{song|length}} </h5>
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row" style="justify-content: space-around;">
+        <div class="card mb-3 border border-primary" style="max-width: 350px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                <img src="/static/decors/playlist.jpg" class="img-fluid rounded-start" alt="photo" height="150px" width="150px">
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Total Playlists : {{playlist|length}}</h5>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3 border border-primary" style="max-width: 350px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                <img src="/static/decors/album.jpg" class="img-fluid rounded-start" alt="photo" height="150px" width="150px">
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Total Albums : {{album|length}}</h5>
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h4>Detailed Statistics</h4>
+        <div class="row" style="padding: 1em;">
+            <div class="col-md-6 ">
+                <h5>Recently added songs</h5>
+                <div class="rectangle scrollmenu" style="display:flex;">
+                {% if song %}
+                {% for s in song|sort(attribute='doc', reverse = True) %}
+                    {% if loop.index <= 5 %}
+                    <div class="square border border-primary rounded" style="margin: 10px;"><a href="/song/{{s.id}}" ><img src="{{s.scover_photo}}" class="rounded" height="150px" width="150px"></a><center>{{s.sname}}</center></div>
+                    {% endif %}
+                {% endfor %}
+                {% else %}
+                <p>No recent songs to display</p>
+                {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 ">
+                <h5>Recently added Albums</h5>
+                <div class="rectangle scrollmenu" style="display:flex;">
+                {% if album %}
+                {% for a in album|sort(attribute='doc', reverse = True) %}
+                    {% if loop.index <= 5 %}
+                    <div class="square border border-primary rounded" style="margin: 10px;"><a href="/album/{{a.id}}" ><img src="{{a.album_coverphoto}}" class="rounded" height="150px" width="150px"></a><center>{{a.album_name}}</center></div>
+                    {% endif %}
+                {% endfor %}
+                {% else %}
+                <p>No recent songs to display</p>
+                {% endif %}
+                </div>
+            </div>  
+        </div>
+        <div class="row" style="padding: 1em;">
+            <h5>Usefull Graphs</h5>
+            <div class="col-md-4"><img src="static/img.png" height="400px" width="400px"></div>
+            <div class="col-md-4"><img src="static/img1.png" height="400px" width="400px"></div>
+            <div class="col-md-4"><img src="static/img2.png" height="400px" width="400px"></div>
+        </div>
+        <div class="row" style="padding: 1em;">
+            <div class="col-md-6 "><center><img src="static/img3.png" height="400px" width="400px"></center></div>
+            <div class="col-md-6"><img src="static/img4.png" height="400px" width="400px"></div>
+        </div>
+    </div>
+</body>
+</html>

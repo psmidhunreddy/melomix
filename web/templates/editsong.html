@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>MELOMIX</title>
+</head>
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-shrink-0" style="margin-left: 50px;">
+            <img src="static\logo.png" height="100px" width="100px">
+        </div>
+        <div class="p-5 flex-grow-1 bd-highlight" >
+            <h2 style="color: aqua;">Edit Song</h2></div>
+            
+        <div class="p-2 flex-shrink-1 bd-highlight">
+            <button class="btn btn-primary"><a class="dropdown-item" href="/creatorprofile">Creator Home</a></button>
+        </div>
+    </div>
+
+<div class="container" style="padding: 1em;">
+    
+    <div class="row border" style="padding: 2em;">
+    <div class="col-4"><img src="{{song.scover_photo}}" class="rounded" alt="Song Cover Photo" height="300px" width="300px"><br><p>*Sorry you can't update audio and photo file</p></div>
+    <div class="col-8"><form action="/editsong" method="post" enctype="multipart/form-data" class="col-xs-8 col-xs-offset-2  col-sm-6 col-sm-offset-3 col-md-4 col-sm-offset-4 col-lg-2 col-lg-offset-5">
+        <input type="text" name="sid" class="form-control" value="{{song.id}}" hidden>
+        <i><h5>Song:</h5></i><input type="text" placeholder="SongName" name="sname" class="form-control" value="{{song.sname}}"><br>
+        <i><h5>Lyrics:</h5></i><textarea cols="15" rows="5" placeholder="Give lyrics" name="slyrics" class="form-control">{{song.slyrics}}</textarea><br><br>
+        <input type="submit" class="btn btn-outline-info" value="Edit">
+    </form>
+    </div>
+    </div>
+</div>
+</body>
+</html>

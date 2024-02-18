@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>MELOMIX</title>
+   
+</head>
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-shrink-0" style="margin-left: 50px;">
+            <a href="/adminhome"><img src="static\logo.png" height="100px" width="100px"></a>
+        </div>
+        <div class="p-5 flex-grow-1 bd-highlight" >
+            <h2 style="color: aqua;">{% if hour>4 and 12>hour %}Good Morning
+                {% elif hour>=12 and 18>hour %}Good Afternoon
+                {% elif hour>=18 and 24>hour %}Good Evening 
+                {% endif %}Admin!!</h2></div>
+            <div class="p-5 flex-grow-1 bd-highlight">
+            
+        </div>
+        <div class="p-2 flex-shrink-1 bd-highlight">
+            <div class="dropdown">
+                <button class="btn  dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{admin.profile_photo}}" alt="dp" class="img-thumbnail mt-4 mb-2 " style="max-width: 80px; border-radius: 10em; max-height: 80px;  z-index: 1">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="/log-out">Logout</a></li>      
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding: 1rem;">
+        <h5>This is what you can do as a admin</h5>
+        <div class="row" style="justify-content: space-around;">
+            <div class="col-sm-6" style="padding: 2em;">
+                <div class="card border-primary">
+                  <div class="card-body">
+                    <h5 class="card-title">Admin's Dashboard</h5>
+                    <p class="card-text">Get all the insights, statistics & detailed reports about the MAD App </p>
+                    <a href="/admin-dashboard" class="btn btn-primary">Dashboard</a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6" style="padding: 2em;">
+                <div class="card border-primary">
+                  <div class="card-body">
+                    <h5 class="card-title">Song/Playlist/Album Manage</h5>
+                    <p class="card-text">Look the content which is flaged by users</p>
+                    <a href="/mad-song-manage" class="btn btn-primary">Let's Go</a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-6" style="padding: 2em;">
+                <div class="card border-primary">
+                  <div class="card-body">
+                    <h5 class="card-title">Creators Managemnet</h5>
+                    <p class="card-text">Look whose making the content on the MAD App</p>
+                    <a href="/mad-creator-manage" class="btn btn-primary">Let's Go</a>
+                  </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+</body>
+</html>

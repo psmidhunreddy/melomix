@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>MELOMIX</title>
+</head>
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-grow-1" style="margin-left: 50px;">
+            <a href="/userhome"><img src="/static/logo.png" height="100px" width="100px"></a>
+        </div>
+        <div class="p-2 flex-shrink-1 bd-highlight">
+            <div class="dropdown">
+                <button class="btn  dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{user.profile_photo}}" alt="dp" class="img-thumbnail mt-8 mb-2 " style="max-width: 80px; border-radius: 10em; max-height: 80px;  z-index: 1">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="/userhome">Home</a></li>
+                    <li><a class="dropdown-item" href="/userprofile">Profile</a></li> 
+                    <li><a class="dropdown-item" href="/creatorprofile">Creator Home</a></li> 
+                    <li><a class="dropdown-item" href="/log-out">Logout</a></li>      
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<div class="container" style="padding: 1em;">
+    
+    <h4>Edit your Playlist</h4>
+    <div class="row border" style="padding: 2em;">
+        <div class="col-md-4"><img src="{{playlist.playlist_coverphoto}}" class="rounded" alt="playlist Cover Photo" height="300px" width="300px"><br><p>*Sorry you can't update photo file</p></div>
+        <div class="col-md-8">
+    <form action="/editplaylist" method="post" class="form-control">
+        <table>
+        <input type="text" hidden name="pid" value="{{playlist.id}}">
+        <input type="text" hidden name="flag" value="update" class="form-data">
+        <tbody>
+            <tr>
+            <th><label for="pname">Playlist Name</label></th>
+            <td><input type="text" placeholder="Playlist Name" name="pname" value="{{playlist.playlist_name}}" class="form-data"></td>
+            </tr>
+            <tr>
+                <th><label for="privacy">Make your playlist Public: </label></th>
+                <td><input type="radio" name="privacy" value="1" class="form-data">Yes
+                <input type="radio" name="privacy" value="0" class="form-data">No</td>
+            </tr>
+            <tr>
+                <th><label for="song">Select Songs to add</label></th>
+                <td><select name="song" multiple>
+                {% for s in exsisting_songs %}
+                <option value="{{s.id}}" selected>{{s.sname}}</option>
+                {% endfor %}
+                {% for s in rem_songs %}
+                <option value="{{s.id}}" >{{s.sname}}</option>
+                {% endfor %}
+                </select></td>
+            </tr>
+            <tr><th colspan="2" style="text-align: center;"><input type="submit" value="update" class="btn btn-dark"></th></tr></tbody>
+    </table>
+    </form>
+    </div>
+</div>
+</body>
+</html>

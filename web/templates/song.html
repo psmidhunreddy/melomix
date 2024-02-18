@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="icon" href="data:,">
+    
+    <title>MELOMIX</title>
+</head>
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-grow-1" style="margin-left: 50px;">
+            <a href="/userhome"><img src="/static/logo.png" height="100px" width="100px"></a>
+        </div>
+        <div class="p-2 flex-shrink-1 bd-highlight">
+            <div class="dropdown">
+                <button class="btn  dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{user.profile_photo}}" alt="dp" class="img-thumbnail mt-8 mb-2 " style="max-width: 80px; border-radius: 10em; max-height: 80px;  z-index: 1">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="/userhome">Home</a></li>
+                    <li><a class="dropdown-item" href="/userprofile">Profile</a></li> 
+                    <li><a class="dropdown-item" href="/creatorprofile">Creator Home</a></li> 
+                    <li><a class="dropdown-item" href="/log-out">Logout</a></li>      
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding: 1em;">
+        <div class="col" style="margin: 10px;">
+            <h2><u>Song Details</u></h2>
+            <p>Song Name: {{s.sname}}</p>
+            <p>Creator Name: {{c.cname}}</p>
+            <p>Created Date: {{s.doc.strftime('%Y-%m-%d')}}</p>
+            <p>Overall Rating : {% if rating %}
+                {{rating|sum(attribute='rating')/rating|length}}
+                {% else %} No rating yet {% endif %}
+            </p>
+            <p>Your Rating :{% if userrate %}
+                {{userrate.rating}}
+                {% else %} No rating yet please provide {% endif %}
+            </p>
+            <p><form action="/song/{{s.id}}" method="post"><input type="submit" name="report" value="Report" class="btn btn-outline-warning"></form></p>
+        </div>
+        <div class="col border"><center><img src="{{s.scover_photo}}" width="400px" height="400px" style="padding: 2em;"></center><b><center>{{s.sname}}</center></b>
+            <br><center><audio controls controlsList="nodownload noplaybackrate" autoplay>
+                <source src="{{s.sfile}}" type="audio/mp3">
+                Issue in loading audio file.
+            </audio></center>
+            <form action="/song/{{s.id}}" method="post" class="form-control">
+                <label for="rating">Rating Here </label>
+                <input type="radio" name="rating" value="1" checked>1
+                <input type="radio" name="rating" value="2">2
+                <input type="radio" name="rating" value="3">3
+                <input type="radio" name="rating" value="4">4
+                <input type="radio" name="rating" value="5">5
+                <input type="submit" >
+            </form>
+        </div>
+        
+        <div class="col" style="margin: 10px;"><h2><u>Lyrics</u></h2>
+            <textarea class="form-control" name="text" cols="40" rows="20" disabled>
+                {{s.slyrics}}
+            </textarea>
+        </div>
+    </div>
+</body>
+</html>

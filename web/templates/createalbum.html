@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>MELOMIX</title>
+</head>
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-grow-1" style="margin-left: 50px;">
+            <a href="/creatorprofile"><img src="/static/logo.png" height="100px" width="100px"></a>
+        </div>
+        <div class="p-2 flex-shrink-1 bd-highlight">
+            <a href=/creatorprofile><button class="btn btn-primary">Creator Home</button></a>
+        </div>
+    </div>
+
+<div class="container" style="padding: 2em;">
+    <h4>Create Album</h4><br>
+    
+        <form action="/createalbum" method="post" class="form-control border-primary" enctype="multipart/form-data">
+            <label for="aname">Album Name</label>
+            <input type="text" placeholder="Enter Album Name" name="aname" class="form-control" required>
+            <label for="genre">Genre</label>
+            <input type="text" placeholder="Enter Genre" name="genre" class="form-control" required>
+            <label for="song">Select Songs to add</label>
+            <select name="song" multiple class="form-control">
+                {% for s in songs %}
+                <option value="{{s.id}}">{{loop.index}}.{{s.sname}}</option>
+                {% endfor %}
+            </select>
+            <label for="photofile">Album Coverphoto</label>
+            <input type="file" accept="image/*" name="photofile" class="form-control" required><br>
+            <center><input type="submit" value="Create" class="btn btn-dark"></center>
+        </form>
+    
+</div>
+
+</body>
+</html>

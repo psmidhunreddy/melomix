@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>MELOMIX</title>
+</head>
+<body>
+    <div class="d-flex align-items-center" style="padding: 1em; background-color: #12343d">
+        <div class="flex-shrink-0" style="margin-left: 50px;">
+            <a href="/userhome"><img src="static\logo.png" height="100px" width="100px"></a>
+        </div>
+        <div class="p-5 flex-grow-1 bd-highlight" >
+            <h2 style="color: aqua;">User Profile</h2></div>
+            <div class="p-5 flex-grow-1 bd-highlight">
+            <form method="POST" action="/search">
+                <div >
+                    <select name="searchby">
+                        <option value="" disabled selected>Search by</option>
+                        <option value="song">Song</option>
+                        <option value="album">Album</option>
+                        <option value="playlist">Playlist</option>
+                    </select>
+                <input type="text" name="search" placeholder="search-here" required><button type="submit"><i class="fa fa-search"></i></button>
+                </div>
+            </form>
+        </div>
+
+        <div class="align-self-center"><a href="/register-creator"><button type="button" class="btn btn-primary btn-block">Become a creator</button></a></div>
+        <div class="p-2 flex-shrink-1 bd-highlight">
+            <div class="dropdown">
+                <button class="btn  dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{user.profile_photo}}" alt="dp" class="img-thumbnail mt-4 mb-2 " style="max-width: 80px; border-radius: 10em; max-height: 80px;  z-index: 1">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="/userhome">User Home</a></li> 
+                    <li><a class="dropdown-item" href="/creatorprofile">Creator Home</a></li> 
+                    <li><a class="dropdown-item" href="/log-out">Logout</a></li>      
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="padding: 5em; padding-top: 2em;">
+        <h4 ><u>Personel details</u></h4>
+        <form action="/userprofile" method="post"  enctype="multipart/form-data">
+            <div class="row" style="padding: 1em;">
+                <div class="col-3"><label for="username">Username</label></div>
+                <div class="col-4">{{user.username}}</div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-3"><label for="email">Email</label></div>
+                <div class="col-4">{{user.email}}</div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-3"><label for="doc">User since</label></div>
+                <div class="col-4">{{user.doc.strftime('%Y-%m-%d')}}</div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-3">Your Playlist</div>
+                <div class="col-3">{{playlist|length}}</div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-3"><label for="name">Name</label></div>
+                <div class="col-4"><input type="text" name="name" placeholder="{{user.name}}" required></div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-3"><label for="pno">Phone No</label></div>
+                <div class="col-4"><input type="tel" name="pno" placeholder="{{user.pno}}" required></div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-3"><label for="photo">Photo</label></div>
+                <div class="col-4">
+                <img src="{{user.profile_photo}}" alt="dp" class="img-thumbnail mt-4 mb-2" style="max-width: 80px; max-height: 80px;  z-index: 1">
+                <input type="file" accept="image/*" name="photo">
+                </div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-4"><input type="submit" value="Update"></div>
+            </div>
+            
+        </form>
+        {% if creator %}
+        {% if creator.flag==1 %}
+        <h4 style="padding-top: 1em;"><u>Creator Details</u></h4>
+        <div class="row" style="padding: 1em;">
+            <div class="col-3">Creator Name</div>
+            <div class="col-3">{{creator.cname}}</div>
+        </div>
+        <div class="row" style="padding: 1em;">
+            <div class="col-3">Creator Since</div>
+            <div class="col-3">{{creator.doc.strftime('%Y-%m-%d')}}</div>
+        </div>
+        <div class="row" style="padding: 1em;">
+            <div class="col-3">Total Songs</div>
+            <div class="col-3">{{songs|length}}</div>
+        </div>
+        <div class="row" style="padding: 1em;">
+            <div class="col-3">Total Albums</div>
+            <div class="col-3">{{albums|length}}</div>
+        </div>
+        
+        {% elif creator.flag==2 %}
+        <h4 style="padding-top: 1em;"><u>Creator Details</u></h4>
+        <p>You have been blacklisted, contact admin for futher preceding</p>
+        {% elif creator.flag==0 %}
+        <h4 style="padding-top: 1em;"><u>Creator Details</u></h4>
+        <p>You have been registered. Waiting for admin approval</p>
+        {% endif %}
+        {% endif %}
+        <h4 style="padding-top: 1em;"><u>Password & Security</u></h4>
+        <form action="userprofile" method="post">
+            <div class="row" style="padding: 1em;">
+                <div class="col-3"><label for="password" >Current Password</label></div>
+                <div class="col-4"><input type="password" name="password" required></div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-3"><label for="npassword">New Password</label></div>
+                <div class="col-4"><input type="password" name="npassword" required></div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-3"><label for="cpassword">Confirm Password</label></div>
+                <div class="col-4"><input type="password" name="cpassword" required></div>
+            </div>
+            <div class="row" style="padding: 1em;">
+                <div class="col-4"><input type="submit" value="Update Password"></div>
+            </div>
+        </form>
+          
+    </div>
+    <div class="position-absolute bottom-0 end-0">
+    <div class="m-4">
+        {%with messages = get_flashed_messages(category_filter=["error"]) %}
+        {% if messages %}
+                <div class="alert alert-danger alert-dismissible fade show">          
+                    {{messages[0]}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+        {% endif %}
+        {% endwith %}
+        {%with messages = get_flashed_messages(category_filter=["success"]) %}
+        {% if messages %}
+                <div class="alert alert-success alert-dismissible fade show">          
+                    {{messages[0]}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+    </div>
+</body>
+</html>
