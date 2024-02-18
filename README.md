@@ -135,3 +135,14 @@ pip install -r requirements.txt
 ├───── report.pdf
 └───── requirements.txt
 ```
+
+## Application Window
+![userlogin](https://github.com/psmidhunreddy/melomix/assets/129940887/b67a3d98-8feb-4b10-ba7b-c171e8b3b14a)
+![userhome](https://github.com/psmidhunreddy/melomix/assets/129940887/fb41e83e-8976-4ec6-bcad-4d9e6933d32f)
+![song](https://github.com/psmidhunreddy/melomix/assets/129940887/f18b1094-9b34-4537-87de-2644c80642de)
+![playlist](https://github.com/psmidhunreddy/melomix/assets/129940887/a5a72a8b-78f5-4f64-8703-91a6e4dff28f)
+![album](https://github.com/psmidhunreddy/melomix/assets/129940887/2e2664a9-b819-46c8-aba4-730a4ad1b9df)
+![adminlogin](https://github.com/psmidhunreddy/melomix/assets/129940887/c3a4943c-2f0d-4091-bcb2-a9861899aad2)
+![admindb](https://github.com/psmidhunreddy/melomix/assets/129940887/ea050ffe-2387-4de7-92c2-f8078710b718)
+
+
